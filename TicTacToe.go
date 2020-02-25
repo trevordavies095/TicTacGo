@@ -1,3 +1,11 @@
+/********************************************************
+ * Name       : L Trevor Davies
+ * Date       : 2020-02-24
+ * Description: Made this while learning Go. Bare minimum
+ * 	input validation. AI is STUPID. I'm just trying to
+ *	learning a new language maaaaaaan.
+ ********************************************************/
+
 package main
 
 import (
@@ -7,6 +15,7 @@ import (
 	"os"
 )
 
+// Holds a move, duh
 type move struct {
 	row int
 	col int
@@ -23,11 +32,14 @@ func main() {
 
 	/****** start main() ******/
 
+	// While loops are also for loops in Go?
 	for !checkSolved(board, lastMove) && numOfMoves != 9 {
 		printBoard(board)
 
 		// User's turn
 		if numOfMoves%2 == 0 {
+
+			// Grab user input
 			fmt.Print("-> ")
 			input, _ := scanner.ReadString('\n')
 			mv := formatMove(input)
@@ -35,27 +47,35 @@ func main() {
 				lastMove = mv
 			}
 
+			// While move is invalid
 			for !checkMove(board, mv) {
 				fmt.Print("-> ")
 				input, _ := scanner.ReadString('\n')
 				mv = formatMove(input)
 			}
 
+			// Update lastMove and board
 			lastMove = mv
 			board[lastMove.row][lastMove.col] = "X"
 
 		} else {
 			// AI turn
+
+			// Generate 2 random numbers
 			row := rand.Intn(3)
 			col := rand.Intn(3)
+
+			// Make a move of it
 			mv := move{row, col}
 
+			// While the move is not valid
 			for !checkMove(board, mv) {
 				row := rand.Intn(3)
 				col := rand.Intn(3)
 				mv = move{row, col}
 			}
 
+			// Update lastMove and board
 			lastMove = mv
 			board[lastMove.row][lastMove.col] = "O"
 		}
@@ -64,8 +84,8 @@ func main() {
 		fmt.Println()
 	}
 
+	// End of game
 	printBoard(board)
-
 	if numOfMoves == 9 && !checkSolved(board, lastMove) {
 		fmt.Println("It's a draw!")
 	} else if numOfMoves%2 == 1 {
