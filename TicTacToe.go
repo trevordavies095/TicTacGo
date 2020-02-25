@@ -38,12 +38,10 @@ func main() {
 			for !checkMove(board, mv) {
 				fmt.Print("-> ")
 				input, _ := scanner.ReadString('\n')
-				mv := formatMove(input)
-				if checkMove(board, mv) {
-					lastMove = mv
-				}
+				mv = formatMove(input)
 			}
 
+			lastMove = mv
 			board[lastMove.row][lastMove.col] = "X"
 
 		} else {
@@ -65,6 +63,8 @@ func main() {
 		numOfMoves++
 		fmt.Println()
 	}
+
+	printBoard(board)
 
 	if numOfMoves == 9 && !checkSolved(board, lastMove) {
 		fmt.Println("It's a draw!")
